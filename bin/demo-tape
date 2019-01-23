@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+#puts "chao"
+require_relative "../lib/demo-tape"
+#load "#{Rails.root}/lib/demo-tape.rb"
