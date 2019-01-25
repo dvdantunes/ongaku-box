@@ -1,35 +1,41 @@
+# Global config
 AllCops:
-  TargetRubyVersion: 2.5
-
+  TargetRubyVersion: 2.5.3
   Exclude:
-    - 'db/**/*'
-    - 'log/**/*'
-    - 'tmp/**/*'
+    - db/**/*
+    - config/**/*
+    - bin/**/*
+    - Gemfile
+    - Gemfile.lock
+    - config.ru
+    - log/**/*
+    - tmp/**/*
+    - test/**/*
+    - spec/**/*
 
-Documentation:
-  # Skips checking to make sure top level modules / classes have a comment.
-  Enabled: false
+# Checks the length of lines in the source code
+Metrics/LineLength:
+  Max: 150
+  Exclude:
+    - '**/spec/**/*'
 
-Style/FrozenStringLiteralComment:
-  Enabled: false
+# Checks if the length of a method exceeds some maximum value
+Metrics/MethodLength:
+  CountComments: false
+  Max: 50
 
-Style/ClassAndModuleChildren:
-  # Skips checking the style of children definitions at classes and modules.
-  #
-  # Basically there are two different styles:
-  #
-  # `nested` - have each child on a separate line
-  #   class Foo
-  #     class Bar
-  #     end
-  #   end
-  #
-  # `compact` - combine definitions as much as possible
-  #   class Foo::Bar
-  #   end
-  #
-  # With it disabled, either or is valid.
-  Enabled: false
+# Checks if the length of a block exceeds some maximum value
+Metrics/BlockLength:
+  CountComments: false
+  Max: 50
+  Exclude:
+    - '**/spec/**/*'
+    - '**/*.rake'
 
-Style/MixinUsage:
-  Enabled: false
+# Checks that the ABC size of methods is not higher than the configured maximum
+Metrics/AbcSize:
+  Max: 45
+
+# Enforces LF unix EOL
+Layout/EndOfLine:
+  EnforcedStyle: lf
