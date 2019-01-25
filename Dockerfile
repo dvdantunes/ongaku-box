@@ -1,15 +1,17 @@
 FROM ruby:2.5-alpine
 
-RUN apk update && apk add build-base nodejs postgresql-dev cmake git vim
+LABEL maintainer="David Antunes <dvdantunes@gmail.com>"
 
-RUN mkdir /app
-WORKDIR /app
+RUN apk update && apk add build-base nodejs postgresql-dev tzdata cmake git vim
 
-COPY Gemfile Gemfile.lock ./
+ENV APP_HOME /app
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+
+COPY Gemfile* $APP_HOME
+
 RUN bundle install --binstubs
 
 COPY . .
-
-LABEL maintainer="David Antunes <dvdantunes@gmail.com>"
 
 CMD puma -C config/puma.rb
