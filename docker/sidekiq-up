@@ -1,0 +1,9 @@
+#! /bin/sh
+
+# sidekiq startup
+
+# Sets bundle path to PATH to get bin files
+export PATH="$PATH:$BUNDLE_PATH"
+
+# Run sidekiq
+sidekiq -C config/sidekiq.yml.erb
