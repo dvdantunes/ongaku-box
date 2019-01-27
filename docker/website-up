@@ -1,0 +1,16 @@
+#! /bin/sh
+
+# Website startup
+
+# Sets bundle path to PATH to get bin files
+export PATH="$PATH:$BUNDLE_PATH"
+
+# # Install node modules
+# yarn check || yarn install
+
+# # Install gems if needed
+# bin/bundle check || bin/bundle install
+
+# Start Puma server
+puma -C config/puma.rb
+

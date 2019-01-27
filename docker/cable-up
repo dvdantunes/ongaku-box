@@ -1,0 +1,9 @@
+#! /bin/sh
+
+# cable startup
+
+# Sets bundle path to PATH to get bin files
+export PATH="$PATH:$BUNDLE_PATH"
+
+# Run cable
+puma -p 28080 cable/config.ru
