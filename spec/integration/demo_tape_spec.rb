@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "TXTing top Justin Bieber song" do
   it "successfully sends a message" do
