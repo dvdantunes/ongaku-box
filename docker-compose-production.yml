@@ -17,7 +17,7 @@ services:
     image: 'redis:4.0-alpine'
     command: redis-server
     volumes:
-      - 'redis:/data'
+      - 'demo-tape-redis:/data'
     logging:
       driver: awslogs
       options:
