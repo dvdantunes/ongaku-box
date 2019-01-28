@@ -1,0 +1,13 @@
+engines:
+  eslint:
+    enabled: true
+ratings:
+  paths:
+    - app/**
+    - config/**
+    - lib/**
+exclude_paths:
+  - bin/**
+  - node_modules/**/*
+  - spec/**
+
