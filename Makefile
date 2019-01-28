@@ -88,9 +88,9 @@ clean-development:
 	$(call clean,"development")
 	$(call breakline, "できた (Done!)")
 
-clean-production:
+clean:
 	$(call colorecho, "Removing installed dependencies and modules", $(RED))
-	$(call clean, "production")
+	$(call clean,"production")
 	$(call breakline, "できた (Done!)")
 
 
@@ -100,7 +100,7 @@ docker-clean-development:
 	$(call docker-compose-down,"development")
 	$(call breakline, "できた (Done!)")
 
-docker-clean-production:
+docker-clean:
 	$(call colorecho, "Removing docker containers", $(RED))
 	$(call docker-compose-down,"production")
 	$(call breakline, "できた (Done!)")
