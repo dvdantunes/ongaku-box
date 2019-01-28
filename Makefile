@@ -220,7 +220,7 @@ scale-down:
 	$(BIN_PATH)/aws-scale-down.sh
 
 
-# Get production env status
+# Get production environment status
 status:
 	$(BIN_PATH)/aws-status.sh
 
