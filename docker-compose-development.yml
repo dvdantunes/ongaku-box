@@ -1,20 +1,20 @@
 version: '2'
 
 services:
-  postgres:
-    image: 'postgres:10.3-alpine'
-    volumes:
-      - 'postgres:/var/lib/postgresql/data'
-    env_file:
-      - '.env-development'
+  # demo-tape-postgres:
+  #   image: 'postgres:10.3-alpine'
+  #   volumes:
+  #     - 'postgres:/var/lib/postgresql/data'
+  #   env_file:
+  #     - '.env-development'
 
-  redis:
+  demo-tape-redis:
     image: 'redis:4.0-alpine'
     command: redis-server
     volumes:
       - 'redis:/data'
 
-  website:
+  demo-tape-website:
     image: demo-tape-website
     depends_on:
       - 'postgres'
@@ -34,7 +34,7 @@ services:
     stdin_open: true
     tty: true
 
-  sidekiq:
+  demo-tape-sidekiq:
     image: demo-tape-sidekiq
     depends_on:
       - 'postgres'
@@ -48,7 +48,7 @@ services:
     env_file:
       - '.env-development'
 
-  cable:
+  demo-tape-cable:
     image: demo-tape-cable
     depends_on:
       - 'redis'
@@ -65,7 +65,7 @@ services:
 
   # Allows gem files caching
   # @see https://medium.com/magnetis-backstage/how-to-cache-bundle-install-with-docker-7bed453a5800
-  cachebox:
+  demo-tape-cachebox:
     image: busybox
     volumes:
       - /cachebox
