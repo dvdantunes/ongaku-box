@@ -5,7 +5,7 @@ BIN_PATH=./bin
 APP_PATH=/app
 APP_USER=app
 CACHEBOX_PATH=/cachebox
-DOCKER_MAIN_SERVICE_NAME=website
+DOCKER_MAIN_SERVICE_NAME=demo-tape-website
 DOCKER_COMPOSE_FILE_DEVELOPMENT=docker-compose-development.yml
 DOCKER_COMPOSE_FILE_PRODUCTION=docker-compose-production.yml
 
@@ -64,6 +64,14 @@ define docker-compose-call
 endef
 
 
+# Perfom a clean to cache on specified envinronment
+define fix-perms
+	@docker-compose -f "docker-compose-$(1).yml" run $(DOCKER_MAIN_SERVICE_NAME) \
+		sh -c " \
+			sudo chown -R $(APP_USER):$(APP_USER) $(CACHEBOX_PATH); \
+			sudo chown -R $(APP_USER):$(APP_USER) $(APP_PATH);"
+endef
+
 
 # Perfom a clean to cache on specified envinronment
 define clean
@@ -119,6 +127,7 @@ dev-install: dev-install-base
 dev-install-base:
 	$(call colorecho, "Installing base dependencies for development", $(YELLOW))
 	$(call docker-compose-build,"development")
+	$(call fix-perms,"development")
 	$(call docker-compose-call,"development", "run", "$(BIN_PATH)/bundle install; yarn")
 	$(call breakline, "")
 
@@ -152,8 +161,8 @@ install: install-base
 install-base:
 	$(call colorecho, "Installing base dependencies for production", $(YELLOW))
 	$(call docker-compose-build,"production")
-	$(call docker-compose-call,"production", "run", "$(BIN_PATH)/bundle install")
-	$(call docker-compose-call,"production", "run", "yarn --production")
+	$(call fix-perms,"production")
+	$(call docker-compose-call,"production", "run", "$(BIN_PATH)/bundle install; yarn --production")
 	$(call breakline, "")
 
 
