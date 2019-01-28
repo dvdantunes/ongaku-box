@@ -1,0 +1,75 @@
+version: '2'
+
+services:
+  postgres:
+    image: 'postgres:10.3-alpine'
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+    env_file:
+      - '.env-development'
+
+  redis:
+    image: 'redis:4.0-alpine'
+    command: redis-server
+    volumes:
+      - 'redis:/data'
+
+  website:
+    image: demo-tape-website
+    depends_on:
+      - 'postgres'
+      - 'redis'
+    build: .
+    command: docker/website-up
+    ports:
+      - '3000:3000'
+    volumes:
+      - '.:/app'
+    volumes_from:
+      - 'cachebox'
+    env_file:
+      - '.env-development'
+    # Byebug halt fix
+    # @see https://gist.github.com/briankung/ebfb567d149209d2d308576a6a34e5d8
+    stdin_open: true
+    tty: true
+
+  sidekiq:
+    image: demo-tape-sidekiq
+    depends_on:
+      - 'postgres'
+      - 'redis'
+    build: .
+    command: docker/sidekiq-up
+    volumes:
+      - '.:/app'
+    volumes_from:
+      - 'cachebox'
+    env_file:
+      - '.env-development'
+
+  cable:
+    image: demo-tape-cable
+    depends_on:
+      - 'redis'
+    build: .
+    command: docker/cable-up
+    ports:
+      - '28080:28080'
+    volumes:
+      - '.:/app'
+    volumes_from:
+      - cachebox
+    env_file:
+      - '.env-development'
+
+  # Allows gem files caching
+  # @see https://medium.com/magnetis-backstage/how-to-cache-bundle-install-with-docker-7bed453a5800
+  cachebox:
+    image: busybox
+    volumes:
+      - /cachebox
+
+volumes:
+  redis:
+  postgres:
