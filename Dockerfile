@@ -25,6 +25,7 @@ RUN apk update \
     git \
     nodejs-current \
     yarn \
+    sqlite-dev \
     postgresql-dev \
     postgresql-client \
     imagemagick \
