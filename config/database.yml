@@ -14,16 +14,16 @@ default: &default
 
 development:
   <<: *default
-  url: <%= 'db/#{ENV['COMPOSE_PROJECT_NAME']}_development.sqlite3' %>
+  url: <%= 'db/demo_tape_development.sqlite3' %>
 
 test:
   <<: *default
-  url: <%= 'db/#{ENV['COMPOSE_PROJECT_NAME']}_test.sqlite3' %>
+  url: <%= 'db/demo_tape_test.sqlite3' %>
 
 staging:
   <<: *default
-  url: <%= 'db/#{ENV['COMPOSE_PROJECT_NAME']}_staging.sqlite3' %>
+  url: <%= 'db/demo_tape_staging.sqlite3' %>
 
 production:
   <<: *default
-  url: <%= 'db/#{ENV['COMPOSE_PROJECT_NAME']}_production.sqlite3' %>
+  url: <%= 'db/demo_tape_production.sqlite3' %>
