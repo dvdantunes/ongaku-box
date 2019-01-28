@@ -24,7 +24,6 @@ before_install:
   - export PATH=$HOME/.yarn/bin:$PATH
 
 install:
-  - make clean
   - make install
 
 script:
