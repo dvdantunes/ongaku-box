@@ -26,7 +26,7 @@ services:
     volumes:
       - '.:/app'
     volumes_from:
-      - 'cachebox'
+      - 'demo-tape-cachebox'
     env_file:
       - '.env-development'
     # Byebug halt fix
@@ -44,7 +44,7 @@ services:
     volumes:
       - '.:/app'
     volumes_from:
-      - 'cachebox'
+      - 'demo-tape-cachebox'
     env_file:
       - '.env-development'
 
@@ -59,7 +59,7 @@ services:
     volumes:
       - '.:/app'
     volumes_from:
-      - cachebox
+      - 'demo-tape-cachebox'
     env_file:
       - '.env-development'
 
@@ -71,5 +71,4 @@ services:
       - /cachebox
 
 volumes:
-  redis:
-  postgres:
+  demo-tape-redis:

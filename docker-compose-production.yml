@@ -40,7 +40,7 @@ services:
     volumes:
       - '.:/app'
     volumes_from:
-      - 'cachebox'
+      - 'demo-tape-cachebox'
     env_file:
       - '.env-production'
     logging:
@@ -64,7 +64,7 @@ services:
     volumes:
       - '.:/app'
     volumes_from:
-      - 'cachebox'
+      - 'demo-tape-cachebox'
     env_file:
       - '.env-production'
     logging:
@@ -87,7 +87,7 @@ services:
     volumes:
       - '.:/app'
     volumes_from:
-      - cachebox
+      - 'demo-tape-cachebox'
     env_file:
       - '.env-production'
     logging:
@@ -105,5 +105,4 @@ services:
       - /cachebox
 
 volumes:
-  redis:
-  postgres:
+  demo-tape-redis:
