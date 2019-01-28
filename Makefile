@@ -1,15 +1,18 @@
-# Makefile rules for development, testing, building and deployment duties
+# Makefile rules for development, testing, building and deployment tasks
 
 # ENV configuration
 BIN_PATH=./bin
+APP_PATH=/app
 APP_USER=app
 CACHEBOX_PATH=/cachebox
-DOCKER_MAIN_IMAGE_NAME=website
+DOCKER_MAIN_SERVICE_NAME=website
+DOCKER_COMPOSE_FILE_DEVELOPMENT=docker-compose-development.yml
+DOCKER_COMPOSE_FILE_PRODUCTION=docker-compose-production.yml
 
 
 
 
-# Utils
+# Utilities
 
 # Breaks output
 define breakline
@@ -36,8 +39,39 @@ endef
 
 
 
-define docker-call
-	@docker-compose -f "docker-compose-$(1).yml" $(2) $(DOCKER_MAIN_IMAGE_NAME) bash -c $(3)
+
+# Perfom a docker-compose build on specified envinronment
+define docker-compose-build
+	@docker-compose -f "docker-compose-$(1).yml" build
+endef
+
+# Perfom a fully docker-compose down on specified envinronment
+# @see docker-compose down --help
+define docker-compose-down
+	@docker-compose -f "docker-compose-$(1).yml" down --rmi 'all' --volumes --remove-orphans
+endef
+
+
+# Login to shell on main service on specified envinronment
+define docker-compose-shell
+	@docker-compose -f "docker-compose-$(1).yml" exec $(DOCKER_MAIN_SERVICE_NAME) bash
+endef
+
+
+# Perform a docker-compose command call to main service on specified envinronment
+define docker-compose-call
+	@docker-compose -f "docker-compose-$(1).yml" $(2) $(DOCKER_MAIN_SERVICE_NAME) sh -c $(3)
+endef
+
+
+
+# Perfom a clean to cache on specified envinronment
+define clean
+	@docker-compose -f "docker-compose-$(1).yml" run $(DOCKER_MAIN_SERVICE_NAME) \
+		sh -c " \
+			sudo chown -R $(APP_USER):$(APP_USER) $(CACHEBOX_PATH); \
+			sudo chown -R $(APP_USER):$(APP_USER) $(APP_PATH); \
+			rm -rf $(CACHEBOX_PATH)/*; rm -rf node_modules/; rm -rf tmp/"
 endef
 
 
@@ -47,26 +81,30 @@ endef
 all: dev-run
 
 
+
 # Remove local installed dependencies and modules
 clean-development:
 	$(call colorecho, "Removing installed dependencies and modules", $(RED))
-	$(call docker-call,"development", "run", "sudo chown -R $(APP_USER):$(APP_USER) $(CACHEBOX_PATH) && rm -rf $(CACHEBOX_PATH)/* && rm -rf node_modules/")
+	$(call clean,"development")
 	$(call breakline, "できた (Done!)")
 
 clean-production:
 	$(call colorecho, "Removing installed dependencies and modules", $(RED))
-	$(call docker-call,"production", "run", "sudo chown -R $(APP_USER):$(APP_USER) $(CACHEBOX_PATH) && rm -rf $(CACHEBOX_PATH)/* && rm -rf node_modules/")
+	$(call clean, "production")
 	$(call breakline, "できた (Done!)")
 
 
+# Removes docker containers
+docker-clean-development:
+	$(call colorecho, "Removing docker containers", $(RED))
+	$(call docker-compose-down,"development")
+	$(call breakline, "できた (Done!)")
 
-#
-docker-compose-development:
-	docker-compose -f docker-compose-development.yml up
+docker-clean-production:
+	$(call colorecho, "Removing docker containers", $(RED))
+	$(call docker-compose-down,"production")
+	$(call breakline, "できた (Done!)")
 
-
-docker-compose-production:
-	docker-compose -f docker-compose-production.yml up
 
 
 
@@ -80,7 +118,8 @@ dev-install: dev-install-base
 # Install base dependencies
 dev-install-base:
 	$(call colorecho, "Installing base dependencies for development", $(YELLOW))
-	$(call docker-call,"development", "run", "bin/bundle install; yarn")
+	$(call docker-compose-build,"development")
+	$(call docker-compose-call,"development", "run", "$(BIN_PATH)/bundle install; yarn")
 	$(call breakline, "")
 
 
@@ -90,8 +129,13 @@ dev-run: dev-install dev-run-fast
 # Run app on local development env (no-check)
 dev-run-fast:
 	$(call colorecho, "Running app on local development mode", $(GREEN))
-	docker-compose-development
+	docker-compose -f $(DOCKER_COMPOSE_FILE_DEVELOPMENT) up
 
+
+# Enter shell shell on local development mode
+dev-shell:
+	$(call colorecho, "Enter shell on local development mode", $(GREEN))
+	$(call docker-compose-shell,"development")
 
 
 
@@ -107,8 +151,9 @@ install: install-base
 # Install base dependencies
 install-base:
 	$(call colorecho, "Installing base dependencies for production", $(YELLOW))
-	$(call docker-call,"production", "run", "bin/bundle install")
-	$(call docker-call,"production", "run", "yarn --production")
+	$(call docker-compose-build,"production")
+	$(call docker-compose-call,"production", "run", "$(BIN_PATH)/bundle install")
+	$(call docker-compose-call,"production", "run", "yarn --production")
 	$(call breakline, "")
 
 
@@ -119,8 +164,13 @@ run: install run-fast
 # Run app on local production env (no-check)
 run-fast:
 	$(call colorecho, "Running app on local production mode", $(GREEN))
-	docker-compose-production
+	docker-compose -f $(DOCKER_COMPOSE_FILE_PRODUCTION) up
 
+
+# Enter shell shell on local production mode
+shell:
+	$(call colorecho, "Enter shell on local production mode", $(GREEN))
+	$(call docker-compose-shell,"production")
 
 
 
@@ -135,7 +185,7 @@ test: dev-install test-app
 # Run tests for app
 test-app:
 	$(call colorecho, "Running tests for app", $(MAGENTA))
-	$(call docker-call,"development", "run", "bin/bundle exec rspec -f d")
+	$(call docker-compose-call,"development", "run", "$(BIN_PATH)/bundle exec rspec -f d")
 	$(call breakline, "")
 
 
