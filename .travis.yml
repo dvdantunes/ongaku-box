@@ -1,0 +1,38 @@
+sudo: required
+dist: trusty
+
+language: ruby
+
+services:
+  - docker
+  #- redis
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+  timeout: 120
+
+git:
+  depth: 3
+
+
+before_install:
+  # Setting yarn version
+  # @see https://docs.travis-ci.com/user/languages/javascript-with-nodejs/#using-a-specific-yarn-version
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0
+  - export PATH=$HOME/.yarn/bin:$PATH
+
+  - ruby -v
+  - docker -v
+  - docker-compose -v
+
+install:
+  - make install
+
+script:
+  - make test
+
+after_script:
+  #- make report-coverage
+  - cd ~
