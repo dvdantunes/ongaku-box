@@ -17,8 +17,8 @@ services:
   demo-tape-website:
     image: demo-tape-website
     depends_on:
-      - 'postgres'
-      - 'redis'
+      # - 'postgres'
+      - 'demo-tape-redis'
     build: .
     command: docker/website-up
     ports:
@@ -37,8 +37,8 @@ services:
   demo-tape-sidekiq:
     image: demo-tape-sidekiq
     depends_on:
-      - 'postgres'
-      - 'redis'
+      # - 'postgres'
+      - 'demo-tape-redis'
     build: .
     command: docker/sidekiq-up
     volumes:
@@ -51,7 +51,7 @@ services:
   demo-tape-cable:
     image: demo-tape-cable
     depends_on:
-      - 'redis'
+      - 'demo-tape-redis'
     build: .
     command: docker/cable-up
     ports:
