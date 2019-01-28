@@ -20,8 +20,8 @@ gem 'rubocop', require: false
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 
-# Use PostgreSQL as the database for Active Record
-gem 'pg', '~> 1.0'
+# Use sqlite3 as the database for Active Record
+gem 'sqlite3', '~> 1.3.11'
 
 # Use Redis Rails to set up a Redis backed Cache and / or Session
 gem 'redis', '~> 4.0'
