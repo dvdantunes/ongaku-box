@@ -5,7 +5,7 @@ BIN_PATH=./bin
 APP_PATH=/app
 APP_USER=app
 CACHEBOX_PATH=/cachebox
-DOCKER_MAIN_SERVICE_NAME=demo-tape-website
+DOCKER_MAIN_SERVICE_NAME=demo-tape-app
 DOCKER_COMPOSE_FILE_DEVELOPMENT=docker-compose-development.yml
 DOCKER_COMPOSE_FILE_PRODUCTION=docker-compose-production.yml
 
@@ -60,26 +60,31 @@ endef
 
 # Perform a docker-compose command call to main service on specified envinronment
 define docker-compose-call
-	@docker-compose -f "docker-compose-$(1).yml" $(2) $(DOCKER_MAIN_SERVICE_NAME) sh -c $(3)
+	@docker-compose -f "docker-compose-$(1).yml" $(2) $(DOCKER_MAIN_SERVICE_NAME) $(3)
 endef
 
 
 # Perfom a clean to cache on specified envinronment
 define fix-perms
 	@docker-compose -f "docker-compose-$(1).yml" run $(DOCKER_MAIN_SERVICE_NAME) \
-		sh -c " \
-			sudo chown -R $(APP_USER):$(APP_USER) $(CACHEBOX_PATH); \
-			sudo chown -R $(APP_USER):$(APP_USER) $(APP_PATH);"
+		"sudo chown -R $(APP_USER):$(APP_USER) $(CACHEBOX_PATH)"
+	@docker-compose -f "docker-compose-$(1).yml" run $(DOCKER_MAIN_SERVICE_NAME) \
+		"sudo chown -R $(APP_USER):$(APP_USER) $(APP_PATH)"
 endef
 
 
 # Perfom a clean to cache on specified envinronment
 define clean
 	@docker-compose -f "docker-compose-$(1).yml" run $(DOCKER_MAIN_SERVICE_NAME) \
-		sh -c " \
-			sudo chown -R $(APP_USER):$(APP_USER) $(CACHEBOX_PATH); \
-			sudo chown -R $(APP_USER):$(APP_USER) $(APP_PATH); \
-			rm -rf $(CACHEBOX_PATH)/*; rm -rf node_modules/; rm -rf tmp/"
+		"chown -R $(APP_USER):$(APP_USER) $(CACHEBOX_PATH)"
+	@docker-compose -f "docker-compose-$(1).yml" run $(DOCKER_MAIN_SERVICE_NAME) \
+		"sudo chown -R $(APP_USER):$(APP_USER) $(APP_PATH)"
+	@docker-compose -f "docker-compose-$(1).yml" run $(DOCKER_MAIN_SERVICE_NAME) \
+		"sudo rm -rf $(CACHEBOX_PATH)/*"
+	@docker-compose -f "docker-compose-$(1).yml" run $(DOCKER_MAIN_SERVICE_NAME) \
+		"sudo rm -rf node_modules/"
+	@docker-compose -f "docker-compose-$(1).yml" run $(DOCKER_MAIN_SERVICE_NAME) \
+		"sudo rm -rf tmp/"
 endef
 
 
@@ -128,7 +133,8 @@ dev-install-base:
 	$(call colorecho, "Installing base dependencies for development", $(YELLOW))
 	$(call docker-compose-build,"development")
 	$(call fix-perms,"development")
-	$(call docker-compose-call,"development", "run", "$(BIN_PATH)/bundle install; yarn")
+	$(call docker-compose-call,"development", "run", "$(BIN_PATH)/bundle install")
+	$(call docker-compose-call,"development", "run", "$(BIN_PATH)/yarn")
 	$(call breakline, "")
 
 
@@ -162,7 +168,8 @@ install-base:
 	$(call colorecho, "Installing base dependencies for production", $(YELLOW))
 	$(call docker-compose-build,"production")
 	$(call fix-perms,"production")
-	$(call docker-compose-call,"production", "run", "$(BIN_PATH)/bundle install; yarn --production")
+	$(call docker-compose-call,"production", "run", "$(BIN_PATH)/bundle install")
+	$(call docker-compose-call,"production", "run", "yarn --production")
 	$(call breakline, "")
 
 
