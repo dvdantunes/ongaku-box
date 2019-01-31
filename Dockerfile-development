@@ -48,14 +48,13 @@ WORKDIR $APP_HOME
 COPY . .
 
 
-# Install dependencies
-RUN bin/bundle install
-RUN yarn install
-
-
 # Copy root shell configuration
 COPY env/.profile "/root/.profile"
 COPY env/.bashrc "/root/.bashrc"
+
+# Setting '$APP_USER' as current user
+# Also, it sets the active user at shell login
+USER $APP_USER
 
 # Copy '$APP_USER' user shell configuration
 COPY --chown=app:app env/.profile "/home/$APP_USER/.profile"
