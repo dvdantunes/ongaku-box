@@ -6,49 +6,39 @@
 version: '2'
 
 services:
-  # demo-tape-postgres:
-  #   image: 'postgres:10.3-alpine'
-  #   volumes:
-  #     - 'postgres:/var/lib/postgresql/data'
-  #   env_file:
-  #     - '.env-production'
-
-  demo-tape-redis:
+  redis:
     image: 'redis:4.0-alpine'
     command: redis-server
     volumes:
-      - 'demo-tape-redis:/data'
+      - 'redis:/data'
     logging:
       driver: awslogs
       options:
-        awslogs-group: demo-tape-redis
+        awslogs-group: redis
         awslogs-region: us-east-1
-        # awslogs-stream-prefix: redis
+        awslogs-stream-prefix: redis
 
-  demo-tape-website:
+  demo-tape-app:
     image: 223263753891.dkr.ecr.us-east-1.amazonaws.com/demo-tape-app:latest
     depends_on:
-      # - 'postgres'
-      - 'demo-tape-redis'
+      # - 'demo-tape-postgres'
+      - 'redis'
     # build: .
-    command: docker/website-up
+    command: /app/docker/app-up
     environment:
+      - RAILS_ENV=production
       - NODE_ENV=production
       - PORT=3000
     ports:
       - '3000:3000'
-    volumes:
-      - '.:/app'
-    volumes_from:
-      - 'demo-tape-cachebox'
     env_file:
       - '.env-production'
     logging:
       driver: awslogs
       options:
-        awslogs-group: demo-tape-website
+        awslogs-group: demo-tape-app
         awslogs-region: us-east-1
-        # awslogs-stream-prefix: website
+        awslogs-stream-prefix: app
     # Byebug halt fix
     # @see https://gist.github.com/briankung/ebfb567d149209d2d308576a6a34e5d8
     stdin_open: true
@@ -57,14 +47,12 @@ services:
   demo-tape-sidekiq:
     image: 223263753891.dkr.ecr.us-east-1.amazonaws.com/demo-tape-app:latest
     depends_on:
-      # - 'postgres'
-      - 'demo-tape-redis'
+      # - 'demo-tape-postgres'
+      - 'redis'
     # build: .
-    command: docker/sidekiq-up
-    volumes:
-      - '.:/app'
-    volumes_from:
-      - 'demo-tape-cachebox'
+    command: /app/docker/sidekiq-up
+    environment:
+      - RAILS_ENV=production
     env_file:
       - '.env-production'
     logging:
@@ -72,37 +60,27 @@ services:
       options:
         awslogs-group: demo-tape-sidekiq
         awslogs-region: us-east-1
-        # awslogs-stream-prefix: sidekiq
+        awslogs-stream-prefix: sidekiq
 
-  demo-tape-cable:
-    image: 223263753891.dkr.ecr.us-east-1.amazonaws.com/demo-tape-app:latest
-    depends_on:
-      - 'demo-tape-redis'
-    # build: .
-    command: docker/cable-up
-    environment:
-      - PORT=28080
-    ports:
-      - '28080:28080'
-    volumes:
-      - '.:/app'
-    volumes_from:
-      - 'demo-tape-cachebox'
-    env_file:
-      - '.env-production'
-    logging:
-      driver: awslogs
-      options:
-        awslogs-group: demo-tape-cable
-        awslogs-region: us-east-1
-        # awslogs-stream-prefix: cable
-
-  # Allows gem files caching
-  # @see https://medium.com/magnetis-backstage/how-to-cache-bundle-install-with-docker-7bed453a5800
-  demo-tape-cachebox:
-    image: busybox
-    volumes:
-      - /cachebox
+  # demo-tape-cable:
+  #   image: 223263753891.dkr.ecr.us-east-1.amazonaws.com/demo-tape-app:latest
+  #   depends_on:
+  #     - 'redis'
+  #   # build: .
+  #   command: /app/docker/cable-up
+  #  environment:
+  #    - RAILS_ENV=production
+  #    - PORT=28080
+  #   ports:
+  #     - '28080:28080'
+  #   env_file:
+  #     - '.env-production'
+  #   logging:
+  #     driver: awslogs
+  #     options:
+  #       awslogs-group: demo-tape-cable
+  #       awslogs-region: us-east-1
+  #       awslogs-stream-prefix: cable
 
 volumes:
-  demo-tape-redis:
+  redis:
