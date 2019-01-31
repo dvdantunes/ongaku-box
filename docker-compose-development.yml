@@ -1,26 +1,21 @@
 version: '2'
 
 services:
-  # demo-tape-postgres:
-  #   image: 'postgres:10.3-alpine'
-  #   volumes:
-  #     - 'postgres:/var/lib/postgresql/data'
-  #   env_file:
-  #     - '.env-development'
-
-  demo-tape-redis:
+  redis:
     image: 'redis:4.0-alpine'
     command: redis-server
     volumes:
-      - 'demo-tape-redis:/data'
+      - 'redis:/data'
 
-  demo-tape-website:
-    image: demo-tape-website
+  demo-tape-app:
+    image: demo-tape-app
     depends_on:
       # - 'postgres'
-      - 'demo-tape-redis'
-    build: .
-    command: docker/website-up
+      - 'redis'
+    build:
+      context: .
+      dockerfile: Dockerfile-development
+    command: docker/app-up
     ports:
       - '3000:3000'
     volumes:
@@ -38,8 +33,10 @@ services:
     image: demo-tape-sidekiq
     depends_on:
       # - 'postgres'
-      - 'demo-tape-redis'
-    build: .
+      - 'redis'
+    build:
+      context: .
+      dockerfile: Dockerfile-development
     command: docker/sidekiq-up
     volumes:
       - '.:/app'
@@ -51,8 +48,10 @@ services:
   demo-tape-cable:
     image: demo-tape-cable
     depends_on:
-      - 'demo-tape-redis'
-    build: .
+      - 'redis'
+    build:
+      context: .
+      dockerfile: Dockerfile-development
     command: docker/cable-up
     ports:
       - '28080:28080'
@@ -71,4 +70,4 @@ services:
       - /cachebox
 
 volumes:
-  demo-tape-redis:
+  redis:
