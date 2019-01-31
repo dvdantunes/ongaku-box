@@ -1,0 +1,6 @@
+#! /bin/bash
+# set -e
+
+# Bash entrypoint
+
+exec $@

@@ -1,0 +1,16 @@
+#! /bin/sh
+
+# Container initialization
+
+# Set bundle path to PATH to get bin files
+export BUNDLE_PATH="/cachebox"
+export PATH="$PATH:$BUNDLE_PATH"
+
+# Set current directory
+cd /app
+
+# Install node modules
+yarn check || yarn install
+
+# Install gems if needed
+bin/bundle check || bin/bundle install
