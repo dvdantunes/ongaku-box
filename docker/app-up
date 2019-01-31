@@ -2,7 +2,7 @@
 
 # Website startup
 
-# Sets bundle path to PATH to get bin files
+# Set bundle path to PATH to get bin files
 export PATH="$PATH:$BUNDLE_PATH"
 
 # # Install node modules
@@ -10,6 +10,9 @@ export PATH="$PATH:$BUNDLE_PATH"
 
 # # Install gems if needed
 # bin/bundle check || bin/bundle install
+
+# Set current directory
+cd /app
 
 # Start Puma server
 puma -C config/puma.rb
