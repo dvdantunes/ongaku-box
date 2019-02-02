@@ -50,6 +50,7 @@ COPY . .
 
 # Install dependencies
 RUN bin/bundle install
+RUN bin/bundle exec rake assets:precompile
 RUN yarn install
 
 
