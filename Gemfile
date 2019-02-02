@@ -57,11 +57,14 @@ gem 'uglifier', '>= 1.3.0'
 # Use jQuery as the JavaScript library
 gem 'jquery-rails', '~> 4.3'
 
+# Use Popper.js tooltips for Bootstrap 4.2.1
+gem 'popper_js', '~> 1.14.5'
+
 # Use Turbolinks. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 
-# Use Bootstrap SASS for Bootstrap support
-gem 'bootstrap-sass', '~> 3.3'
+# Use Bootstrap 4.2.1 gem with sass support
+gem 'bootstrap', '~> 4.2.1'
 
 # Use Font Awesome Rails for Font Awesome icons
 gem 'font-awesome-rails', '~> 4.7'
