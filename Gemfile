@@ -57,6 +57,9 @@ gem 'uglifier', '>= 1.3.0'
 # Use jQuery as the JavaScript library
 gem 'jquery-rails', '~> 4.3'
 
+# Use jQuery UI for additional components
+gem 'jquery-ui-rails', '~> 6.0'
+
 # Use Popper.js tooltips for Bootstrap 4.2.1
 gem 'popper_js', '~> 1.14.5'
 
