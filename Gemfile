@@ -137,7 +137,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Twilio REST API Ruby gem
-gem 'twilio-ruby'
+gem 'twilio-ruby', '~> 5.19.0'
 
 # Spotify Web API Ruby wrapper
-gem 'rspotify'
+gem 'rspotify', '~> 2.4'
