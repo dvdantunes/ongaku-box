@@ -1,3 +1,6 @@
+require 'SpotifyAPI'
+require 'TwilioAPI'
+
 #
 # Music model
 #
@@ -22,6 +25,7 @@ class Music
 
     rescue Exception => e
       Rails.logger.error 'Spotify error: cannot connect or use API'
+      Rails.logger.error e
     end
 
     # Abort sending if nothing found
@@ -36,8 +40,10 @@ class Music
 
     rescue Exception => e
       Rails.logger.error 'Twilio error: cannot connect or use API'
+      Rails.logger.error e
     end
 
+    Rails.logger.info "sent_message?: #{sent_message}"
     sent_message
   end
 end

@@ -3,6 +3,7 @@ require 'SpotifyAPI'
 require 'TwilioAPI'
 
 RSpec.describe Music, type: :model do
+  # Initialize test data
   subject { described_class.new }
   let(:existing_artist) { Faker::Music.band }
   let(:fake_artist) { 'blink183' }
@@ -28,7 +29,7 @@ RSpec.describe Music, type: :model do
   end
 
 
-  context 'when a existing artist is provided' do
+  context 'when a fake artist is provided' do
 
     it 'doesn\'t send a SMS' do
       sent = subject.send_artist_top_track(fake_artist, good_phone)
