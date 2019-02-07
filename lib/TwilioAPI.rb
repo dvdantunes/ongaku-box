@@ -29,6 +29,8 @@ class TwilioAPI
       })
 
     rescue Twilio::REST::RestError => e
+      Rails.logger.error "Twilio::REST::RestError"
+      Rails.logger.error e
       return false
     end
 
