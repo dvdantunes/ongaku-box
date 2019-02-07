@@ -2,9 +2,11 @@ require 'rails_helper'
 require 'SpotifyAPI'
 
 RSpec.describe SpotifyAPI do
+  # Initialize test data
   subject { described_class.new }
   let(:existing_artist) { Faker::Music.band }
   let(:fake_artist) { 'blink183' }
+
 
   context '#get_artist_top_track' do
 

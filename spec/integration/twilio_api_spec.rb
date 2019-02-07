@@ -2,10 +2,12 @@ require 'rails_helper'
 require 'TwilioAPI'
 
 RSpec.describe TwilioAPI do
+  # Initialize test data
   subject { described_class.new }
   let(:good_phone) { '+56952496480' }
   let(:bad_phone) { '7480' }
   let(:body) { 'test sms' }
+
 
   context '#send_sms' do
 
