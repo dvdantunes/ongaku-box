@@ -10,15 +10,15 @@ class TwilioAPI
   TWILIO_FROM_NUMBER = '+14436817535'
 
 
+  # Initialization and authentication
   def initialize
     @client = Twilio::REST::Client.new ACCOUNT_SID, AUTH_TOKEN
   end
 
 
+  # Send a SMS message to the provided phone number
   #
-  # Send a SMS message to the specified number
-  #
-  # @return [boolean]    If message was sent or not
+  # @return [Boolean]    If message was sent or not
   def send_sms(body, to_number)
 
     begin
@@ -32,11 +32,10 @@ class TwilioAPI
       return false
     end
 
-    return is_sent message
+    is_sent message
   end
 
 
-  #
   # Return the list of SMS already sent
   #
   # @return [Array]
@@ -49,10 +48,9 @@ class TwilioAPI
   private
 
 
-  #
   # Determine if a message was sent or not
   #
-  # @return boolean
+  # @return [Boolean]
   def is_sent(message)
     message.sid.present? &&
       (message.status == 'delivered' ||
