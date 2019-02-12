@@ -31,6 +31,8 @@ dump.rdb
 node_modules/
 jspm_packages/
 bower_components
+public/packs
+public/packs-test
 
 # Ignore precompiled javascript packs
 /public/packs
