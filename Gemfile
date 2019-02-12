@@ -2,8 +2,8 @@
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
-  "https://github.com/#{repo_name}.git"
+  repo_name = '#{repo_name}/#{repo_name}' unless repo_name.include?('/')
+  'https://github.com/#{repo_name}.git'
 end
 
 
@@ -39,7 +39,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Pundit allows to build a simple, robust and scaleable authorization system
-# gem "pundit"
+# gem 'pundit'
 
 # Use Clockwork for recurring background tasks without needing cron
 # gem 'clockwork', '~> 2.0'
@@ -72,7 +72,9 @@ gem 'bootstrap', '~> 4.2.1'
 # Use Font Awesome Rails for Font Awesome icons
 gem 'font-awesome-rails', '~> 4.7'
 
-
+# User 'react_on_rails' for React support
+gem 'react_on_rails', '~> 11.1.4'
+gem 'webpacker', '~> 3'
 
 
 group :development, :test do
@@ -121,12 +123,12 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 
   # Preview mail in the browser instead of sending
-  # gem "letter_opener"
-  # gem "letter_opener_web"
+  # gem 'letter_opener'
+  # gem 'letter_opener_web'
 
   # Development tools
-  gem "better_errors"
-  gem "binding_of_caller"
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'bullet'
 end
 
