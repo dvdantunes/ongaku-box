@@ -17,7 +17,9 @@
  *= require font-awesome
  *= require jquery-ui
  *= require_self
- *= require_tree .
  */
 
 @import "bootstrap";
+
+@import "layout";
+@import "home";
