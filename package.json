@@ -11,7 +11,7 @@
     "yarn": ">=1.5.1"
   },
   "scripts": {
-    "git-cz" : "git-cz"
+    "git-cz": "git-cz"
   },
   "repository": {
     "type": "git",
@@ -22,8 +22,12 @@
     "demo tape"
   ],
   "dependencies": {
+    "babel-preset-react": "false6.24.1",
     "debug": "^2.4.5",
-    "dotenv": "^4.0.0"
+    "dotenv": "^4.0.0",
+    "prop-types": "false15.7.1",
+    "react": "false16.8.1",
+    "react-dom": "false16.8.1"
   },
   "devDependencies": {
     "commitizen": "^3.0.4",
@@ -31,7 +35,8 @@
     "cross-env": "5.1.4",
     "cz-conventional-changelog": "1.2.0",
     "istanbul": "1.1.0-alpha.1",
-    "validate-commit-msg": "^2.14.0"
+    "validate-commit-msg": "^2.14.0",
+    "webpack-dev-server": "2.11.2"
   },
   "license": "GPL-3.0",
   "config": {
