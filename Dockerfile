@@ -23,6 +23,8 @@ RUN apk update \
     bash \
     vim \
     git \
+    curl \
+    python2 \
     nodejs-current \
     yarn \
     sqlite-dev \
