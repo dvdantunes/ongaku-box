@@ -1,7 +1,7 @@
 #
-# Music API controller
+# Service API controller
 #
-class API::V1::MusicController < ActionController::API
+class API::V1::ServiceController < ActionController::API
   include ResponseHelper
 
   before_action :allowed_params

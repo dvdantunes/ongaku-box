@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Music API', type: :request do
+RSpec.describe 'Service API', type: :request do
   # Initialize test data
   let(:existing_artist) { Faker::Music.band }
   let(:fake_artist) { 'blink183' }
@@ -18,7 +18,7 @@ RSpec.describe 'Music API', type: :request do
         context 'when a well-formatted phone is provided' do
           let(:params) { { artist_name: existing_artist, phone_number: good_phone } }
 
-          before { post '/api/v1/music/send_artist_top_track', params: params }
+          before { post '/api/v1/service/send_artist_top_track', params: params }
 
           it 'successfully sends a SMS message' do
             expect(json).not_to be_empty
@@ -34,7 +34,7 @@ RSpec.describe 'Music API', type: :request do
         context 'when a bad-formatted phone is provided' do
           let(:params) { { artist_name: existing_artist, phone_number: bad_phone } }
 
-          before { post '/api/v1/music/send_artist_top_track', params: params }
+          before { post '/api/v1/service/send_artist_top_track', params: params }
 
           it 'doesn\'t send a SMS' do
             expect(json).not_to be_empty
@@ -51,7 +51,7 @@ RSpec.describe 'Music API', type: :request do
       context 'when a fake artist is provided' do
         let(:params) { { artist_name: fake_artist, phone_number: good_phone } }
 
-        before { post '/api/v1/music/send_artist_top_track', params: params }
+        before { post '/api/v1/service/send_artist_top_track', params: params }
 
         it 'doesn\'t send a SMS' do
           expect(json).not_to be_empty
@@ -70,7 +70,7 @@ RSpec.describe 'Music API', type: :request do
 
       context 'when some params are not provided' do
         let(:params) { { artist_name: Faker::Music.band } }
-        before { post '/api/v1/music/send_artist_top_track', params: params }
+        before { post '/api/v1/service/send_artist_top_track', params: params }
 
         it 'returns 400 Bad Request HTTP status code' do
           expect(response).to have_http_status(:bad_request)
