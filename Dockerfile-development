@@ -23,6 +23,8 @@ RUN apk update \
     bash \
     vim \
     git \
+    curl \
+    python2 \
     nodejs-current \
     yarn \
     sqlite-dev \
@@ -63,7 +65,7 @@ COPY --chown=app:app env/.bashrc "/home/$APP_USER/.bashrc"
 
 # Expose Puma port
 EXPOSE 3000
-
+EXPOSE 3035
 
 # Set entrypoint
 ENTRYPOINT ["/app/docker/entrypoint"]
