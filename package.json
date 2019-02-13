@@ -22,12 +22,14 @@
     "demo tape"
   ],
   "dependencies": {
-    "babel-preset-react": "false6.24.1",
+    "@rails/webpacker": "3.5",
+    "babel-preset-react": "6.24.1",
     "debug": "^2.4.5",
     "dotenv": "^4.0.0",
-    "prop-types": "false15.7.1",
-    "react": "false16.8.1",
-    "react-dom": "false16.8.1"
+    "prop-types": "15.7.1",
+    "react": "16.8.1",
+    "react-dom": "16.8.1",
+    "react-on-rails": "11.2.2"
   },
   "devDependencies": {
     "commitizen": "^3.0.4",
