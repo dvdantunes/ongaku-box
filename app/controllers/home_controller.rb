@@ -8,6 +8,8 @@ class HomeController < ApplicationController
   #
   # @return [void]
   def index
-
+    @props = {
+      artist: 'Muse'
+    }
   end
 end
