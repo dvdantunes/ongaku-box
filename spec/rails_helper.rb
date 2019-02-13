@@ -14,7 +14,7 @@ SimpleCov.start
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'support/factory_bot'
 require 'support/shoulda_matchers'
-
+require 'support/request_spec_helper'
 
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -68,6 +68,10 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+
+  # Include spec helpers
+  config.include RequestSpecHelper, type: :request
 
   # Ensure that if we are running js tests, we are using latest webpack assets
   # This will use the defaults of :js and :server_rendering meta tags
