@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   # API resources
   namespace :api, :defaults => {:format => :json} do
     namespace :v1 do
-      post '/music/send_artist_top_track'
+      post '/service/send_artist_top_track'
     end
   end
 end
