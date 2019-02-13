@@ -1,0 +1,27 @@
+# Procfile for Foreman
+#
+# Note: if needed, you can run these commands in separate shells instead of using foreman
+#
+# @see http://blog.daviddollar.org/2011/05/06/introducing-foreman.html
+
+
+# Main app
+web: puma -C config/puma.rb
+
+# Sidekiq job handler
+job: sidekiq -C config/sidekiq.yml.erb
+
+# Watch process with webpack to compile the changed files.
+# When making frequent changes to client side assets, you will prefer building webpack assets
+# upon saving rather than when you refresh your browser page.
+client: sh -c 'rm -rf public/packs/* || true && bin/bundle exec rake react_on_rails:locale && bin/webpack -w'
+
+# Alternative with HMR hot reloading with webpack-dev-server
+# You can edit config/webpacker.yml to set HMR to true to see hot reloading.
+# Note, hot and live reloading don't work with the default generator setup on top of
+# the rails/webpacker Webpack config with server rendering.
+# If you have server rendering enabled, modify the call to bin/webpack-dev-server line
+# so you add `--inline=false` and then CSS is not inlined.
+# Otherwise, you will have an error. If you want HMR and Server Rendering, see
+# the example in the https://github.com/shakacode/react-webpack-rails-tutorial
+# client: sh -c 'rm -rf public/packs/* || true && bin/bundle exec rake react_on_rails:locale && bin/webpack-dev-server'

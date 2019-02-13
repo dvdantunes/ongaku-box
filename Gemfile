@@ -20,6 +20,9 @@ gem 'rubocop', require: false
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 
+# Use foreman to manage multiple processes
+gem 'foreman', '~> 0.85.0'
+
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', '~> 1.3.11'
 
@@ -75,6 +78,7 @@ gem 'font-awesome-rails', '~> 4.7'
 # User 'react_on_rails' for React support
 gem 'react_on_rails', '~> 11.1.4'
 gem 'webpacker', '~> 3'
+# gem 'mini_racer', platforms: [:ruby, :x64_mingw]
 
 
 group :development, :test do

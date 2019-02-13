@@ -14,6 +14,11 @@ export PATH="$PATH:$BUNDLE_PATH"
 # Set current directory
 cd /app
 
-# Start Puma server
-puma -C config/puma.rb
+
+# Start foreman process manager
+if [ $RAILS_ENV = 'production' ];then
+  foreman start -f Procfile
+else
+  foreman start -f Procfile.dev
+fi
 
