@@ -37,7 +37,6 @@ RSpec.describe 'Music API', type: :request do
           before { post '/api/v1/music/send_artist_top_track', params: params }
 
           it 'doesn\'t send a SMS' do
-            byebug
             expect(json).not_to be_empty
             expect(json['sent']).to be_falsey
           end
