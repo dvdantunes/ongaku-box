@@ -2,7 +2,7 @@ require 'SpotifyAPI'
 require 'TwilioAPI'
 
 #
-# Music model
+# Music tableless model
 #
 class Music
   include ActiveModel::Model
@@ -43,7 +43,7 @@ class Music
       Rails.logger.error e
     end
 
-    Rails.logger.info "sent_message?: #{sent_message}"
+    # Rails.logger.info "sent_message?: #{sent_message}"
     sent_message
   end
 end

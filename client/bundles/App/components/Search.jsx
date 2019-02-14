@@ -1,26 +1,52 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class Music extends React.Component {
-  static propTypes = {
-    artist: PropTypes.string.isRequired, // this is passed from the Rails view
-  };
+/**
+ * Search React component
+ *
+ */
+export default class Search extends React.Component {
 
   /**
-   * @param props - Comes from your rails view.
+   * Set props definitions
+   *
+   */
+  static propTypes = {
+    artist: PropTypes.string.isRequired,
+  };
+
+
+  /**
+   * Constructor
+   *
+   * @param {Object} props    Component props
    */
   constructor(props) {
     super(props);
 
-    // How to set initial state in ES6 class syntax
-    // https://reactjs.org/docs/state-and-lifecycle.html#adding-local-state-to-a-class
+    // Set initial state (ES6 class syntax)
+    // @see https://reactjs.org/docs/state-and-lifecycle.html#adding-local-state-to-a-class
     this.state = { artist: this.props.artist };
   }
 
+
+  /**
+   *
+   *
+   * @param  {[type]} artist [description]
+   *
+   * @return {void}
+   */
   updateArtist = (artist) => {
     this.setState({ artist });
   };
 
+
+  /**
+   * Renders the component
+   *
+   * @returns {React-component}
+   */
   render() {
     return (
       <div>

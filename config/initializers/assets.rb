@@ -10,5 +10,5 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 
 # Pre-compile additional assets.
 Rails.application.config.assets.precompile << proc do |path|
-  true if path =~ /\.(eot|svg|ttf|woff|png)\z/
+  true if path =~ /\.(eot|svg|ttf|woff|png|ico)\z/
 end

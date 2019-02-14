@@ -19,8 +19,8 @@
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 
-en:
-  catch_phrase: 'Discover your next favourite song'
+es:
+  catch_phrase: 'Encuentra tu nueva canción favorita'
   sections:
     home:
-      title: 'Discover your next favourite song'
+      title: 'Encuentra tu nueva canción favorita'

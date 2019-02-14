@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title><%= yield :title %></title>
+    <title><%= @main_title +' - '+ yield(:title) %></title>
+    <%= favicon_link_tag 'favicon-blue.ico' %>
 
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
@@ -14,6 +15,7 @@
     <%# Stylesheets %>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
       integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster" />
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
     <%# JavaScript files %>
@@ -36,10 +38,7 @@
     </main>
 
     <footer>
-      <hr />
-      <div class="container">
-        <%= render 'layouts/footer' %>
-      </div>
+      <%= render 'layouts/footer' %>
     </footer>
 
     <%= render 'layouts/google_analytics' %>

@@ -1,6 +1,16 @@
 <%# home/index view %>
+<% title t(:title, scope: [:sections, :home]) %>
 
-<%= react_component("Music", props: @props, prerender: false) %>
+
+<%# Search component %>
+<%
+  @nav_props = {
+    catch_phrase: t(:catch_phrase)
+  }
+%>
+<%= react_component("Search", props: @props) %>
+
+
 
 <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
   <%= image_tag 'icons/bootstrap-outline.svg', class: 'mr-3', alt: '', width: 48, height: 48 %>
