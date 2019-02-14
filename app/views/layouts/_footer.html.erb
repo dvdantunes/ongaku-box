@@ -1,3 +1,7 @@
-<p class="text-muted">
-  &copy; <%= Time.now.year.to_s %> demo-tape - All rights reserved
-</p>
+<%
+  @nav_props = {
+    title: @main_title,
+  }
+%>
+
+<%= react_component("Footer", props: @nav_props) %>

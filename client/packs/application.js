@@ -9,11 +9,16 @@
 
 import ReactOnRails from 'react-on-rails';
 
-import Music from '../bundles/App/components/Music';
+// Import desired components
+import Navbar from '../bundles/App/components/Navbar';
+import Footer from '../bundles/App/components/Footer';
+import Search from '../bundles/App/components/Search';
 
-// Exporting components
+// Export components
 ReactOnRails.register({
-  Music,
+  Navbar,
+  Footer,
+  Search
 });
 
-console.log('Hello World from Webpacker');
+console.log('Webpacker loaded!');
