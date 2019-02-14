@@ -20,7 +20,18 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 es:
-  catch_phrase: 'Encuentra tu nueva canción favorita'
+  catch_phrase: Encuentra tu nueva canción favorita
+  error_title: Error
   sections:
     home:
-      title: 'Encuentra tu nueva canción favorita'
+      artist_input_placeholder: Nombre de Banda o Artista
+      artist_error_message: Debes ingresar el nombre de una Banda o Artista
+      lead_message: Ingresa el nombre de una Banda o Artista y tu número telefónico, y te enviaremos su Top Track más reciente
+      phone_number_placeholder: ej.
+      phone_number_error_message: Número telefónico inválido
+      send_sms: Enviar SMS
+      send_sms_error: Hubo un inconveniente enviando el SMS. Por favor intenta nuevamente en un par de segundos
+      send_sms_success: El SMS fue enviado exitosamente a ti
+      title: Encuentra tu nueva canción favorita
+  success_title: Excelente!
+  warning_title: Advertencia

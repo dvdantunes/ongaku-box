@@ -20,7 +20,18 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  catch_phrase: 'Discover your next favourite song'
+  catch_phrase: Discover your next favourite song
+  error_title: Error
   sections:
     home:
-      title: 'Discover your next favourite song'
+      artist_input_placeholder: Band or Artist name
+      artist_error_message: You must enter a Band or Artist name
+      lead_message: Enter a Band or an Artist name and your phone number, and we'll send you its most recent Top Track
+      phone_number_placeholder: e.g.
+      phone_number_error_message: Invalid phone number
+      send_sms: Send SMS
+      send_sms_error: There was an issue sending the SMS. Please try again in a few seconds
+      send_sms_success: The SMS was successfully sent to you
+      title: Discover your next favourite song
+  success_title: Great!
+  warning_title: Warning

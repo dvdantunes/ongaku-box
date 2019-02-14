@@ -4,11 +4,20 @@
 
 <%# Search component %>
 <%
-  @nav_props = {
-    catch_phrase: t(:catch_phrase)
+  @search_props = {
+    error_title: t(:error_title),
+    success_title: t(:success_title),
+    lead_message: t(:lead_message, scope: [:sections, :home]),
+    send_sms: t(:send_sms, scope: [:sections, :home]),
+    send_sms_error: t(:send_sms_error, scope: [:sections, :home]),
+    send_sms_success: t(:send_sms_success, scope: [:sections, :home]),
+    artist_input_placeholder: t(:artist_input_placeholder, scope: [:sections, :home]),
+    artist_error_message: t(:artist_error_message, scope: [:sections, :home]),
+    phone_number_placeholder: t(:phone_number_placeholder, scope: [:sections, :home]),
+    phone_number_error_message: t(:phone_number_error_message, scope: [:sections, :home])
   }
 %>
-<%= react_component("Search", props: @props) %>
+<%= react_component("Search", props: @search_props) %>
 
 
 
