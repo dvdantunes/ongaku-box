@@ -28,12 +28,8 @@
       <%= render 'layouts/navigation' %>
     </header>
 
+    <%# Set rendered view %>
     <main role="main" class="container">
-      <div class="flash-messages">
-        <%= render 'layouts/flash' %>
-      </div>
-
-      <%# Set view %>
       <%= yield %>
     </main>
 
