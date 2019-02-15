@@ -37,7 +37,7 @@ class Music
     begin
       twilio = TwilioAPI.new
 
-      body = "#{artist_name} top track is: #{artist_data.dig(:top_track, :name)}"
+      body = "#{artist_data.dig(:name)} top track is: #{artist_data.dig(:top_track, :name)}"
       sent_sms = twilio.send_sms(body, phone_number)
 
     rescue Exception => e

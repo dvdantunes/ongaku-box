@@ -40,7 +40,7 @@ export default class LoadSpinner extends React.Component {
    */
   componentWillReceiveProps(props) {
 
-    // Show or hides accordin to parent request
+    // Show or hides according to parent request
     props.displayLoadSpinner ? this.show() : this.hide();
   }
 
