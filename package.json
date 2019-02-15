@@ -29,7 +29,8 @@
     "prop-types": "15.7.1",
     "react": "16.8.1",
     "react-dom": "16.8.1",
-    "react-on-rails": "11.2.2"
+    "react-on-rails": "11.2.2",
+    "axios": "0.18.0"
   },
   "devDependencies": {
     "commitizen": "^3.0.4",
