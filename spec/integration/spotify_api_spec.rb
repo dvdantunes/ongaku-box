@@ -10,19 +10,19 @@ RSpec.describe SpotifyAPI do
   let(:fake_artist) { 'blink183' }
 
 
-  context '#get_artist_top_track' do
+  context '#get_artist_data' do
 
     context 'when a existing artist is provided' do
-      it 'successfully gets its top track' do
-        top_track = subject.get_artist_top_track(existing_artist)
-        expect(top_track).to be
+      it 'successfully gets its data' do
+        artist_data = subject.get_artist_data(existing_artist)
+        expect(artist_data).to be
       end
     end
 
     context 'when a fake artist is provided' do
       it 'doesn\'t get anything' do
-        top_track = subject.get_artist_top_track(fake_artist)
-        expect(top_track).to be_nil
+        artist_data = subject.get_artist_data(fake_artist)
+        expect(artist_data).to be_empty
       end
     end
   end

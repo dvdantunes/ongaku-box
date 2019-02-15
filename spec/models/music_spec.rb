@@ -17,15 +17,17 @@ RSpec.describe Music, type: :model do
 
     context 'when a well-formatted phone is provided' do
       it 'successfully sends a SMS message' do
-        sent = subject.send_artist_top_track(existing_artist, good_phone)
-        expect(sent).to be
+        sent_sms, message, artist_data = subject.send_artist_top_track(existing_artist, good_phone)
+        expect(sent_sms).to be
+        expect(message).to be
+        expect(artist_data).to be
       end
     end
 
     context 'when a bad-formatted phone is provided' do
       it 'doesn\'t send a SMS' do
-        sent = subject.send_artist_top_track(existing_artist, bad_phone)
-        expect(sent).to be_falsey
+        sent_sms, message, artist_data = subject.send_artist_top_track(existing_artist, bad_phone)
+        expect(sent_sms).to be_falsey
       end
     end
   end
@@ -34,8 +36,8 @@ RSpec.describe Music, type: :model do
   context 'when a fake artist is provided' do
 
     it 'doesn\'t send a SMS' do
-      sent = subject.send_artist_top_track(fake_artist, good_phone)
-      expect(sent).to be_falsey
+      sent_sms, message, artist_data = subject.send_artist_top_track(fake_artist, good_phone)
+      expect(sent_sms).to be_falsey
     end
   end
 

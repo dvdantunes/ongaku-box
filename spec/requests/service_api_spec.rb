@@ -24,7 +24,7 @@ RSpec.describe 'Service API', type: :request do
 
           it 'successfully sends a SMS message' do
             expect(json).not_to be_empty
-            expect(json['sent']).to be
+            expect(json['sent_sms']).to be
           end
 
           it 'returns 200 OK HTTP status code' do
@@ -40,7 +40,7 @@ RSpec.describe 'Service API', type: :request do
 
           it 'doesn\'t send a SMS' do
             expect(json).not_to be_empty
-            expect(json['sent']).to be_falsey
+            expect(json['sent_sms']).to be_falsey
           end
 
           it 'returns 200 OK HTTP status code' do
@@ -57,7 +57,7 @@ RSpec.describe 'Service API', type: :request do
 
         it 'doesn\'t send a SMS' do
           expect(json).not_to be_empty
-          expect(json['sent']).to be_falsey
+          expect(json['sent_sms']).to be_falsey
         end
 
         it 'returns 200 OK HTTP status code' do
