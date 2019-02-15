@@ -119,6 +119,7 @@ export default class Search extends React.Component {
     }
 
     // Sends the SMS
+    Notification.close();
     const title = '<b>'+ this.props.success_title +'</b>';
     const message = this.props.send_sms_success;
     Notification.show(title, message);

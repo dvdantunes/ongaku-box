@@ -25,8 +25,8 @@ export default class AppIcon extends React.Component {
    */
   static defaultProps = {
     className: 'mr-3',
-    width: 48,
-    height: 48,
+    width: 32,
+    height: 32,
     color: '#8686ff'
   }
 
