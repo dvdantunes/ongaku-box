@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import axios from 'axios';
 import Notification from './Notification';
-
+import LoadSpinner from './LoadSpinner';
+import { API_ENTRYPOINT } from '../config';
 
 /**
  * Search React component
@@ -43,8 +45,12 @@ export default class Search extends React.Component {
     this.state = {
       artist: '',
       phone: '',
-      phoneInputPlugin: {}
+      phoneInputPlugin: {},
+      displayLoadSpinner: false
     };
+
+    // Bindings to change children state
+    this._loadSpinnerDisplay = this._loadSpinnerDisplay.bind(this);
   }
 
 
@@ -55,8 +61,19 @@ export default class Search extends React.Component {
    */
   componentDidMount = () => {
 
-    // Set phone plugin input for country and validation support
-    // It's needed to be placed after mount to locate the input on the DOM
+    this._setPhoneInputPlugin();
+  }
+
+
+  /**
+   * Set phone plugin input for country and validation support
+   *
+   * It's needed to be placed after mount to locate the input on the DOM
+   *
+   * @return {void}
+   */
+  _setPhoneInputPlugin = () => {
+
     const phone_number_placeholder = this.props.phone_number_placeholder;
     const input = document.querySelector("#phone");
     const phoneInputPlugin = window.intlTelInput(input, {
@@ -73,7 +90,6 @@ export default class Search extends React.Component {
   }
 
 
-
   /**
    * Updates artist name
    *
@@ -81,7 +97,7 @@ export default class Search extends React.Component {
    *
    * @return {void}
    */
-  updateArtist = (artist) => {
+  _updateArtist = (artist) => {
 
     this.setState({
       artist: artist
@@ -97,11 +113,26 @@ export default class Search extends React.Component {
    *
    * @return {void}
    */
-  updatePhone = (phone) => {
+  _updatePhone = (phone) => {
 
     this.setState({
-      // phone: this.state.phoneInputPlugin.getNumber(),
       phone: phone
+    });
+  }
+
+
+  /**
+   * Shows or hides loader
+   *
+   * @param  {Boolean} show   If loader should be displayed or not
+   *
+   * @return {void}
+   */
+  _loadSpinnerDisplay = (show) => {
+    console.log('_loadSpinnerDisplay ', show);
+
+    this.setState({
+      displayLoadSpinner: show
     });
   }
 
@@ -111,19 +142,48 @@ export default class Search extends React.Component {
    *
    * @return {void}
    */
-  sendSMS = () => {
+  _sendSMS = () => {
 
     // Checks if form data is ok
-    if (!this.formIsOk()) {
+    if (!this._formIsOk()) {
       return;
     }
 
-    // Sends the SMS
-    Notification.close();
-    const title = '<b>'+ this.props.success_title +'</b>';
-    const message = this.props.send_sms_success;
-    Notification.show(title, message);
-  };
+    // Shows loader
+    this._loadSpinnerDisplay(true);
+
+
+    // Sends a POST request to send a SMS with the
+    const params = {
+      artist_name: this.state.artist,
+      phone_number: this.state.phoneInputPlugin.getNumber()
+    }
+
+    axios
+      .post(API_ENTRYPOINT +'/service/echo', params)
+      .then(response => {
+        // Analyze response
+        console.log('response: ', response.status, response);
+
+        if (response.status !== 200) {
+          this._sendSMS_error(this.props.send_sms_error);
+          return;
+        }
+
+        if (!response.data.sent_sms) {
+          this._sendSMS_error(response.data.message);
+          return;
+        }
+
+        // Success
+        this._sendSMS_success();
+      })
+      .catch(error => {
+        // Unexpected errors
+
+        this._sendSMS_error(this.props.send_sms_error);
+      });
+  }
 
 
   /**
@@ -131,7 +191,7 @@ export default class Search extends React.Component {
    *
    * @return {Boolean}
    */
-  formIsOk = () => {
+  _formIsOk = () => {
 
     // Invalid artist?
     if (!this.state.artist) {
@@ -158,6 +218,53 @@ export default class Search extends React.Component {
 
 
   /**
+   * Perform operations after a sendSMS succesfull request
+   *   - Show success notification
+   *   - Updates
+   *   - Reset form
+   *
+   * @return {void}
+   */
+  _sendSMS_success = () => {
+
+    // Hides loader
+    this._loadSpinnerDisplay(false);
+
+    // Close any active notification and sends notification
+    const title = '<b>'+ this.props.success_title +'</b>';
+    const message = this.props.send_sms_success;
+    Notification.close();
+    Notification.show(title, message);
+
+    // Reset form
+    this.setState({
+      artist: '',
+      phone: ''
+    });
+  }
+
+
+  /**
+   * Perform operations after a sendSMS error request
+   *
+   * @param {String} error_message  Error message
+   *
+   * @return {void}
+   */
+  _sendSMS_error = (error_message) => {
+
+    // Hides loader
+    this._loadSpinnerDisplay(false);
+
+    // Close any active notification
+    Notification.close();
+
+    const title = '<b>'+ this.props.error_title +'</b>';
+    Notification.show(title, error_message, 'warning');
+  }
+
+
+  /**
    * Renders the component
    *
    * @returns {React-component}
@@ -172,36 +279,37 @@ export default class Search extends React.Component {
           <form>
             <div className="form-group">
               <div className="row">
-                <div className="col-md-6 my-2">
+                <div className="col-md-6 my-md-3 my-2">
                   <input
                     name="artist"
                     type="text"
-                    className="form-control mb-3"
+                    className="form-control"
                     placeholder={ this.props.artist_input_placeholder }
-                    onChange={(e) => this.updateArtist(e.target.value)}
+                    onChange={(e) => this._updateArtist(e.target.value)}
                     value={ this.state.artist }
                   />
                 </div>
-                <div className="col-md-6 my-2">
+                <div className="col-md-6 my-md-3 mb-2">
                   <input
                     id='phone'
                     name="phone"
                     type="text"
-                    className="form-control mb-3"
-                    onChange={(e) => this.updatePhone(e.target.value)}
+                    className="form-control"
+                    onChange={(e) => this._updatePhone(e.target.value)}
                     value={ this.state.phone }
                    />
                 </div>
               </div>
               <div className="row">
-                <div className="col-md-12 mb-2 text-center">
+                <div className="col-md-12 my-md-2 my-3 text-center">
                   <button
                     type="button"
+                    id='send_sms'
                     className="btn btn-primary"
-                    style={ {width: '60%'} }
-                    onClick={ (e) => this.sendSMS() }
+                    onClick={ (e) => this._sendSMS() }
                   >
                     { this.props.send_sms }
+                    <LoadSpinner displayLoadSpinner={ this.state.displayLoadSpinner } />
                   </button>
                 </div>
               </div>
