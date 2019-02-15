@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import Notification from './Notification';
 import LoadSpinner from './LoadSpinner';
+import History from './History';
 import { API_ENTRYPOINT } from '../config';
 
 /**
@@ -19,6 +20,8 @@ export default class Search extends React.Component {
     artist: PropTypes.string,
     phone: PropTypes.object,
     phonePlugin: PropTypes.object,
+    displayLoadSpinner: PropTypes.bool,
+    newHistoryLine: PropTypes.object,
     lead_message: PropTypes.string,
     error_title: PropTypes.string,
     success_title: PropTypes.string,
@@ -46,11 +49,13 @@ export default class Search extends React.Component {
       artist: '',
       phone: '',
       phoneInputPlugin: {},
-      displayLoadSpinner: false
+      displayLoadSpinner: false,
+      newHistoryLine: {}
     };
 
     // Bindings to change children state
     this._loadSpinnerDisplay = this._loadSpinnerDisplay.bind(this);
+    this._addNewHistoryLine  = this._addNewHistoryLine.bind(this);
   }
 
 
@@ -129,10 +134,30 @@ export default class Search extends React.Component {
    * @return {void}
    */
   _loadSpinnerDisplay = (show) => {
-    console.log('_loadSpinnerDisplay ', show);
+    // console.log('_loadSpinnerDisplay ', show);
 
     this.setState({
       displayLoadSpinner: show
+    });
+  }
+
+
+  /**
+   * Adds a new entry to history
+   *
+   * @param  {Object} artistData    Found artist data
+   *
+   * @return {void}
+   */
+  _addNewHistoryLine = (artistData) => {
+
+    this.setState({
+      newHistoryLine: artistData
+    });
+
+    // Resets state to avoid repetitions
+    this.setState({
+      newHistoryLine: {}
     });
   }
 
@@ -160,7 +185,7 @@ export default class Search extends React.Component {
     }
 
     axios
-      .post(API_ENTRYPOINT +'/service/echo', params)
+      .post(API_ENTRYPOINT +'/service/send_artist_top_track', params)
       .then(response => {
         // Analyze response
         console.log('response: ', response.status, response);
@@ -176,7 +201,7 @@ export default class Search extends React.Component {
         }
 
         // Success
-        this._sendSMS_success();
+        this._sendSMS_success(response.data);
       })
       .catch(error => {
         // Unexpected errors
@@ -220,12 +245,12 @@ export default class Search extends React.Component {
   /**
    * Perform operations after a sendSMS succesfull request
    *   - Show success notification
-   *   - Updates
-   *   - Reset form
+   *   - Adds a new entry to history
+   *   - Resets form
    *
    * @return {void}
    */
-  _sendSMS_success = () => {
+  _sendSMS_success = (data) => {
 
     // Hides loader
     this._loadSpinnerDisplay(false);
@@ -236,10 +261,14 @@ export default class Search extends React.Component {
     Notification.close();
     Notification.show(title, message);
 
+
+    // Adds a new entry to history
+    this._addNewHistoryLine(data.artist_data);
+
     // Reset form
     this.setState({
       artist: '',
-      phone: ''
+      // phone: ''
     });
   }
 
@@ -271,52 +300,57 @@ export default class Search extends React.Component {
    */
   render() {
     return (
-      <div className='row'>
-        <div className="col-md-6 offset-md-3 text-center">
+      <React.Fragment>
+        <div className='row'>
+          <div className="col-md-6 offset-md-3 text-center">
 
-          <p className="lead">{ this.props.lead_message }</p>
+            <p className="lead">{ this.props.lead_message }</p>
 
-          <form>
-            <div className="form-group">
-              <div className="row">
-                <div className="col-md-6 my-md-3 my-2">
-                  <input
-                    name="artist"
-                    type="text"
-                    className="form-control"
-                    placeholder={ this.props.artist_input_placeholder }
-                    onChange={(e) => this._updateArtist(e.target.value)}
-                    value={ this.state.artist }
-                  />
+            <form>
+              <div className="form-group">
+                <div className="row">
+                  <div className="col-md-6 my-md-3 my-2">
+                    <input
+                      name="artist"
+                      type="text"
+                      className="form-control"
+                      placeholder={ this.props.artist_input_placeholder }
+                      onChange={(e) => this._updateArtist(e.target.value)}
+                      value={ this.state.artist }
+                    />
+                  </div>
+                  <div className="col-md-6 my-md-3 mb-2">
+                    <input
+                      id='phone'
+                      name="phone"
+                      type="text"
+                      className="form-control"
+                      onChange={(e) => this._updatePhone(e.target.value)}
+                      value={ this.state.phone }
+                     />
+                  </div>
                 </div>
-                <div className="col-md-6 my-md-3 mb-2">
-                  <input
-                    id='phone'
-                    name="phone"
-                    type="text"
-                    className="form-control"
-                    onChange={(e) => this._updatePhone(e.target.value)}
-                    value={ this.state.phone }
-                   />
+                <div className="row">
+                  <div className="col-md-12 my-md-2 my-3 text-center">
+                    <button
+                      type="button"
+                      id='send_sms'
+                      className="btn btn-primary"
+                      onClick={ (e) => this._sendSMS() }
+                    >
+                      { this.props.send_sms }
+                      <LoadSpinner displayLoadSpinner={ this.state.displayLoadSpinner } />
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className="row">
-                <div className="col-md-12 my-md-2 my-3 text-center">
-                  <button
-                    type="button"
-                    id='send_sms'
-                    className="btn btn-primary"
-                    onClick={ (e) => this._sendSMS() }
-                  >
-                    { this.props.send_sms }
-                    <LoadSpinner displayLoadSpinner={ this.state.displayLoadSpinner } />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
+
+        <History newHistoryLine={ this.state.newHistoryLine } />
+
+      </React.Fragment>
     );
   }
 }

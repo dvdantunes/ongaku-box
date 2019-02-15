@@ -35,10 +35,11 @@ class SpotifyAPI
     {
       name: artist.name,
       image: artist.images.dig(2, 'url'),
-      href: artist.href,
+      href: artist.external_urls['spotify'],
       top_track: {
         name: top_track.name,
-        href: top_track.href
+        href: top_track.external_urls['spotify'],
+        preview_url: top_track.preview_url
       }
     }
   end
