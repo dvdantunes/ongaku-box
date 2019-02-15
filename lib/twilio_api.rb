@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'twilio-ruby'
 
 #
@@ -23,9 +25,9 @@ class TwilioAPI
 
     begin
       message = @client.messages.create({
-        :from => TWILIO_FROM_NUMBER,
-        :to   => to_number,
-        :body => body
+        from: TWILIO_FROM_NUMBER,
+        to: to_number,
+        body: body
       })
 
     rescue Twilio::REST::RestError => e

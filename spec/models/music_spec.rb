@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
-require 'SpotifyAPI'
-require 'TwilioAPI'
+require 'spotify_api'
+require 'twilio_api'
 
 RSpec.describe Music, type: :model do
   # Initialize test data

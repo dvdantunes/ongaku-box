@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 #
 # Service API controller
 #
 class API::V1::ServiceController < ActionController::API
   include ResponseHelper
 
-  before_action :allowed_params
+  before_action :allowed_params, only: [:send_artist_top_track]
 
 
   # POST /send_artist_top_track
@@ -15,10 +17,24 @@ class API::V1::ServiceController < ActionController::API
   # @return [String]    json response
   def send_artist_top_track
     music = Music.new
-    sent = music.send_artist_top_track(params[:artist_name], params[:phone_number])
+    sent_sms, message, artist_data = music.send_artist_top_track(params.dig(:artist_name), params.dig(:phone_number))
 
     json_response({
-      sent: sent
+      sent_sms: sent_sms,
+      message: message,
+      artist_data: artist_data
+    })
+  end
+
+
+  # POST /echo
+  #
+  # Echoes the sent params
+  #
+  # @return [String]    json response
+  def echo
+    json_response({
+      echo: params
     })
   end
 
@@ -30,9 +46,7 @@ class API::V1::ServiceController < ActionController::API
   #
   # @return [void]
   def allowed_params
-    if params[:artist_name].blank? || params[:phone_number].blank?
-      return json_bad_request_response('Some params not found')
-    end
+    return json_bad_request_response('Some params not found') unless params.dig(:artist_name).present? && params.dig(:phone_number).present?
 
     params.permit(:artist_name, :phone_number)
   end

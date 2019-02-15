@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
-require 'SpotifyAPI'
+require 'spotify_api'
 
 RSpec.describe SpotifyAPI do
   # Initialize test data
