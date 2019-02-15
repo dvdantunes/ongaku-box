@@ -21,17 +21,20 @@
 
 en:
   catch_phrase: Discover your next favourite song
+  error_message: There was an issue sending your request. Please try again in a few seconds
   error_title: Error
+  no_top_track: No Top Track was found for provided Band or Artist
   sections:
     home:
       artist_input_placeholder: Band or Artist name
       artist_error_message: You must enter a Band or Artist name
-      lead_message: Enter a Band or an Artist name and your phone number, and we'll send you its most recent Top Track
+      lead_message: Enter a Band or an Artist name, your phone number, and we'll send you its most recent Top Track
       phone_number_placeholder: e.g.
       phone_number_error_message: Invalid phone number
       send_sms: Send SMS
       send_sms_error: There was an issue sending the SMS. Please try again in a few seconds
       send_sms_success: The SMS was successfully sent to you
       title: Discover your next favourite song
+  success_message: Ok
   success_title: Great!
   warning_title: Warning

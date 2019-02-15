@@ -2,3 +2,14 @@
  * Home controller styles
  */
 
+#send_sms {
+  width: 60%;
+  position: relative;
+}
+
+@media (max-width: 575px) {
+
+  #send_sms {
+    width: 100%;
+  }
+}

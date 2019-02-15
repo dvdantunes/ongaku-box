@@ -21,17 +21,20 @@
 
 es:
   catch_phrase: Encuentra tu nueva canción favorita
+  error_message: Hubo un inconveniente realizando tu petición. Por favor intenta nuevamente en un par de segundos
   error_title: Error
+  no_top_track: No se encontró un Top Track para la Banda o Artista ingresado
   sections:
     home:
       artist_input_placeholder: Nombre de Banda o Artista
       artist_error_message: Debes ingresar el nombre de una Banda o Artista
-      lead_message: Ingresa el nombre de una Banda o Artista y tu número telefónico, y te enviaremos su Top Track más reciente
+      lead_message: Ingresa el nombre de una Banda o Artista, tu número telefónico, y te enviaremos su Top Track más reciente
       phone_number_placeholder: ej.
       phone_number_error_message: Número telefónico inválido
       send_sms: Enviar SMS
       send_sms_error: Hubo un inconveniente enviando el SMS. Por favor intenta nuevamente en un par de segundos
       send_sms_success: El SMS fue enviado exitosamente a ti
       title: Encuentra tu nueva canción favorita
+  success_message: Ok
   success_title: Excelente!
   warning_title: Advertencia
