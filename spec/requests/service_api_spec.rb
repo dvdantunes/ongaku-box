@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Service API', type: :request do
@@ -8,8 +10,8 @@ RSpec.describe 'Service API', type: :request do
   let(:bad_phone) { '7480' }
 
 
-  # Test suite for POST /api/v1/music/send_artist_top_track
-  describe 'POST /api/v1/music/send_artist_top_track' do
+  # Test suite for POST /api/v1/service/send_artist_top_track
+  describe 'POST /api/v1/service/send_artist_top_track' do
 
     context 'when the request is valid' do
 
