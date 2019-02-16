@@ -9,7 +9,7 @@
 web: puma -C config/puma.rb
 
 # Sidekiq job handler
-job: sidekiq -C config/sidekiq.yml.erb
+# job: sidekiq -C config/sidekiq.yml.erb
 
 # Watch process with webpack to compile the changed files.
 # When making frequent changes to client side assets, you will prefer building webpack assets
