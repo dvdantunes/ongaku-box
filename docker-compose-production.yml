@@ -6,28 +6,11 @@
 version: '2'
 
 services:
-  redis:
-    image: 'redis:4.0-alpine'
-    command: redis-server
-    volumes:
-      - 'redis:/data'
-    logging:
-      driver: awslogs
-      options:
-        awslogs-group: redis
-        awslogs-region: us-east-1
-        awslogs-stream-prefix: redis
-
   demo-tape-app:
     image: 223263753891.dkr.ecr.us-east-1.amazonaws.com/demo-tape-app:latest
-    depends_on:
-      # - 'demo-tape-postgres'
-      - 'redis'
     # build: .
     command: /app/docker/app-up
     environment:
-      - RAILS_ENV=production
-      - NODE_ENV=production
       - PORT=3000
     ports:
       - '3000:3000'
@@ -39,48 +22,3 @@ services:
         awslogs-group: demo-tape-app
         awslogs-region: us-east-1
         awslogs-stream-prefix: app
-    # Byebug halt fix
-    # @see https://gist.github.com/briankung/ebfb567d149209d2d308576a6a34e5d8
-    stdin_open: true
-    tty: true
-
-  demo-tape-sidekiq:
-    image: 223263753891.dkr.ecr.us-east-1.amazonaws.com/demo-tape-app:latest
-    depends_on:
-      # - 'demo-tape-postgres'
-      - 'redis'
-    # build: .
-    command: /app/docker/sidekiq-up
-    environment:
-      - RAILS_ENV=production
-    env_file:
-      - '.env-production'
-    logging:
-      driver: awslogs
-      options:
-        awslogs-group: demo-tape-sidekiq
-        awslogs-region: us-east-1
-        awslogs-stream-prefix: sidekiq
-
-  # demo-tape-cable:
-  #   image: 223263753891.dkr.ecr.us-east-1.amazonaws.com/demo-tape-app:latest
-  #   depends_on:
-  #     - 'redis'
-  #   # build: .
-  #   command: /app/docker/cable-up
-  #  environment:
-  #    - RAILS_ENV=production
-  #    - PORT=28080
-  #   ports:
-  #     - '28080:28080'
-  #   env_file:
-  #     - '.env-production'
-  #   logging:
-  #     driver: awslogs
-  #     options:
-  #       awslogs-group: demo-tape-cable
-  #       awslogs-region: us-east-1
-  #       awslogs-stream-prefix: cable
-
-volumes:
-  redis:
