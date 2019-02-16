@@ -10,25 +10,25 @@
 
 ### Overview
 
-`Ongaku Box` is an amazing simple app where you can search for your favourites **Bands** and **Artists** and recieve theirs **Top tracks** through a SMS sent to your phone.
+`Ongaku Box` is an amazing simple app where you can search for your favourites `Bands` and `Artists` and recieve theirs `Top tracks` through a SMS sent to your phone.
 
 
 ### Quick Start
 
-The app was developed as a [Single-page Application](https://medium.com/@NeotericEU/single-page-application-vs-multiple-page-application-2591588efe58). It consists of a single microservice containerized with `Docker`, using the official [**Ruby 2.5 Alpine**](https://hub.docker.com/_/ruby/) image. It also provides an **API** entrypoint to receive requests from any client.
+The app was developed as a [Single-page Application](https://medium.com/@NeotericEU/single-page-application-vs-multiple-page-application-2591588efe58). It consists of a single microservice containerized with **Docker**, using the official [Ruby 2.5 Alpine](https://hub.docker.com/_/ruby/) image. It also provides an **API** entrypoint to receive requests from any client.
 
-It uses `Rails` on the back-end and `React` on the front-end, and uses `react_on_rails` Ruby gem to handle Rails and React task and communication. It is build with **docker-compose** tasks and custom **Makefile** rules.
+It uses **Rails** on the back-end and **React** on the front-end, and uses **react_on_rails** Ruby gem to handle Rails and React task and communication. It is build with `docker-compose` tasks and custom `Makefile` rules.
 
-The app also uses the services provided by **Twilio** and **Spotify**, to send SMS messages and search for music metadata. It depends on `twilio-ruby` and `rspotify` Ruby gems, which allow to authenticate and send requests to Twilio and Spotify, respectively.
+The app also uses the services provided by **Twilio** and **Spotify**, to send SMS messages and request music metadata, respectively. It depends on **twilio-ruby** and **rspotify** Ruby gems, which allow to authenticate and send requests to Twilio and Spotify, respectively.
 
-This documentation will help you to build and deploy them to `Amazon ECS`, which will run a cluster with an **EC2** instance specially optimized to run Docker containers.
+This documentation will help you to build and deploy them to **Amazon ECS**, which will run a cluster with an **EC2** instance specially optimized to run Docker containers.
 
 
 ### Demo
 
-You can see `Ongaku Box` in action through your browser on its [demo web UI](http://ec2-34-201-209-193.compute-1.amazonaws.com:3000/)
+You can see **Ongaku Box** in action through your browser on its [demo web UI](http://ec2-34-201-209-193.compute-1.amazonaws.com:3000/)
 
-Also, you can reach `Ongaku Box API` running on its [demo API entrypoint](http://ec2-34-201-209-193.compute-1.amazonaws.com:3000/api/v1/). You need to request it through `POST` method. For example:
+Also, you can reach **Ongaku Box API** running on its [demo API entrypoint](http://ec2-34-201-209-193.compute-1.amazonaws.com:3000/api/v1/). You need to request it through `POST` method. For example:
 
     $ curl -v -H 'Content-Type: application/json' -d '{"artist_name":"Muse","phone_number":"+56952496480"}' -X POST http://ec2-34-201-209-193.compute-1.amazonaws.com:3000/api/v1/service/send_artist_top_track
 
@@ -47,10 +47,12 @@ Also, you will need to install the following tools and technologies:
 - docker-compose >= 1.22.0
 - aws-cli >= 1.16.96
 - ecs-cli >= 1.12.1
+- foreman >= 0.85.0
 - Ruby == 2.5.3
 - Rails == 5.2.2
 - node == 9.1.1
 - React >= 16.8.1
+- @rails/webpacker == 3.5
 - react_on_rails (gem) == 11.2.2
 - bootstrap (gem) == 4.2.1
 - sass-rails (gem) == 5.0
@@ -85,14 +87,14 @@ Also, you will need to install the following tools and technologies:
 
 First of all, you need to activate **Amazon ECR** and **Amazon ECS services**.
 
-Please adjust your **AWS credentials** and configuration on `bin/aws-config.sh`. You need to enter a **VPC** and its **Subnets**, **Security Group** and **Instance Role**.
+Please adjust your `AWS credentials` and configuration on `bin/aws-config.sh`. You need to enter a `VPC` and its `Subnets`, `Security Group` and `Instance Role`.
 
 
 #### AWS Security group
 
 For the `Security group`, you need to expose traffic to the following ports:
 
-- 3000 (to allow `Ongaku Box` requests)
+- 3000 (to allow **Ongaku Box** requests)
 - 80 (to allow default requests and routing traffic within Docker containers)
 
 
@@ -113,26 +115,26 @@ Then you need to setup the **Amazon ECS Cluster**. To do that, please adjust you
 
 #### Build and deploy
 
-Finally, run `make build` to build the **Docker image** for the app microservice and send them to its repository on **Amazon ECR**. Then, run `make deploy` to scale up the instance on the **Cluster**, create a **Service** and run a **Task Definition**, which runs and exposes the app microservice. You can find the deployment configuration and policies on `docker-compose-production.yml` and `ecs-params.yml` files.
+Finally, run `make build` to build the `Docker image` for the app microservice and send them to its repository on `Amazon ECR`. Then, run `make deploy` to scale up the instance on the `Cluster`, create a `Service` and run a `Task Definition`, which runs and exposes the app microservice. You can find the deployment configuration and policies on `docker-compose-production.yml` and `ecs-params.yml` files.
 
-To view the running app public IPs and tasks, you can use `make status` rule.
+To view the running app public IP and Task list, you can use `make status` rule.
 
 
 #### List of building and deployment utilities
 
 Below is the full list of the utilities used to build and deploy the project:
 
-- `make setup-production` to setup a custom **Cluster** on **Amazon ECS** to be able to deploy the project. You need to adjust `bin/aws-config.sh` file
-- `make build` to build **Docker** image and push it to **Amazon ECR** repositories
-- `make deploy` to deploy a **Service** with defined **Task Definitions** to an **EC2 instance** with Docker container support, through **Amazon ECS**
-- `make status` to check **Docker** images history on **Amazon ECR** and **Task Definitions** status (RUNNING, STOPPED, DRAINING, etc) on **Amazon ECS**
-- `make scale-down` to scale-down the current running **Service** and its **Task Definitions**
-- `make scale-up` to scale-up the last created **Service** and its **Task Definitions**
-- `make remove-production` to scale-down the current running **Services** and its **Task Definitions**, and permanently delete the **Amazon ECS cluster**
+- `make setup-production` to setup a custom `Cluster` on `Amazon ECS` to be able to deploy the app. You need to adjust `bin/aws-config.sh` file
+- `make build` to build `Docker` image and push it to `Amazon ECR` repositories
+- `make deploy` to deploy a `Service` with defined `Task Definitions` to an `EC2 instance` with Docker container support, through `Amazon ECS`
+- `make status` to check `Docker` images history on `Amazon ECR` and `Task Definitions` status (RUNNING, STOPPED, DRAINING, etc) on `Amazon ECS`
+- `make scale-down` to scale-down the current running `Service` and its `Task Definitions`
+- `make scale-up` to scale-up the last created `Service` and its `Task Definitions`
+- `make remove-production` to scale-down the current running `Services` and its `Task Definitions`, and permanently delete the `Amazon ECS cluster`
 
 
 
-### Other utilities
+## Other utilities
 
 - `make commit` better commits with [Commitizen](http://commitizen.github.io/cz-cli/), using AngularJS's commit message convention (cz-conventional-changelog)
 
