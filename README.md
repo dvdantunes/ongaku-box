@@ -41,23 +41,24 @@ To follow CI best practices, you can activate your repository on [travis.org](ht
 
 Also, you will need to install the following tools and technologies:
 
-- gcc >= 5.4.0
-- yarn == 1.7.0
-- Docker >= 18.09.1
-- docker-compose >= 1.22.0
-- aws-cli >= 1.16.96
-- ecs-cli >= 1.12.1
-- foreman >= 0.85.0
-- Ruby == 2.5.3
-- Rails == 5.2.2
-- node == 9.1.1
-- React >= 16.8.1
-- @rails/webpacker == 3.5
-- react_on_rails (gem) == 11.2.2
-- bootstrap (gem) == 4.2.1
-- sass-rails (gem) == 5.0
-- twilio-ruby (gem) == 5.19.0
-- rspotify (gem) == 2.4
+- `gcc >= 5.4.0`
+- `yarn == 1.7.0`
+- `Docker >= 18.09.1`
+- `docker-compose >= 1.22.0`
+- `aws-cli >= 1.16.96`
+- `ecs-cli >= 1.12.1`
+- `foreman >= 0.85.0`
+- `Ruby == 2.5.3`
+- `Rails == 5.2.2`
+- `node == 9.1.1`
+- `React >= 16.8.1`
+- `@rails/webpacker == 3.5`
+- `react_on_rails (gem) == 11.2.2`
+- `bootstrap (gem) == 4.2.1`
+- `sass-rails (gem) == 5.0`
+- `twilio-ruby (gem) == 5.19.0`
+- `rspotify (gem) == 2.4`
+- `rspec-rails (gem) >= 3.8`
 
 
 ## Local development environment
@@ -102,10 +103,10 @@ For the `Security group`, you need to expose traffic to the following ports:
 
 For the `Instance Role`, you need to attach the following AWS policies:
 
-- AmazonElastiCacheFullAccess
-- AmazonEC2ContainerServiceFullAccess
-- AmazonECSTaskExecutionRolePolicy
-- AmazonEC2ContainerServiceforEC2Role
+- `AmazonElastiCacheFullAccess`
+- `AmazonEC2ContainerServiceFullAccess`
+- `AmazonECSTaskExecutionRolePolicy`
+- `AmazonEC2ContainerServiceforEC2Role`
 
 
 #### Setup Amazon ECS cluster
