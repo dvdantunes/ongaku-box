@@ -17,7 +17,7 @@
 
 The app was developed as a [Single-page Application](https://medium.com/@NeotericEU/single-page-application-vs-multiple-page-application-2591588efe58). It consists of a single microservice containerized with **Docker**, using the official [Ruby 2.5 Alpine](https://hub.docker.com/_/ruby/) image. It also provides an **API** entrypoint to receive requests from any client.
 
-It uses **Rails** on the back-end and **React** on the front-end, and uses **react_on_rails** Ruby gem to handle Rails and React task and communication. It is build with `docker-compose` tasks and custom `Makefile` rules.
+It uses **Rails** on the back-end and **React** on the front-end, and uses **react_on_rails** Ruby gem to handle Rails and React task and communication. `Rails` back-end was initially generated using [orat rails](https://github.com/nickjj/orats) starter kit, and `React` front-end was initially generated using `react_on_rails` custom `Rake` tasks. Also, the app uses `docker-compose` commands and custom `Makefile` rules in its build, test and deploy tasks.
 
 The app also uses the services provided by **Twilio** and **Spotify**, to send SMS messages and request music metadata, respectively. It depends on **twilio-ruby** and **rspotify** Ruby gems, which allow to authenticate and send requests to Twilio and Spotify, respectively.
 
@@ -26,7 +26,7 @@ This documentation will help you to build and deploy them to **Amazon ECS**, whi
 
 ### Demo
 
-You can see **Ongaku Box** in action through your browser on its [demo web UI](http://ec2-34-201-209-193.compute-1.amazonaws.com:3000/)
+You can see `Ongaku Box` in action through your browser on its [demo web UI](http://ec2-34-201-209-193.compute-1.amazonaws.com:3000/)
 
 Also, you can reach **Ongaku Box API** running on its [demo API entrypoint](http://ec2-34-201-209-193.compute-1.amazonaws.com:3000/api/v1/). You need to request it through `POST` method. For example:
 
