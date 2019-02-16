@@ -147,3 +147,4 @@ gem 'twilio-ruby', '~> 5.19.0'
 
 # Spotify Web API Ruby wrapper
 gem 'rspotify', '~> 2.4'
+
