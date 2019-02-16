@@ -13,6 +13,7 @@ ARG ADDITIONAL_PACKAGES
 ENV APP_HOME /app
 ENV APP_USER app
 
+
 # Add Alpine packages
 RUN apk update \
   && apk add --update --no-cache \
@@ -49,11 +50,10 @@ WORKDIR $APP_HOME
 # Copy app files
 COPY . .
 
-
 # Install dependencies
-RUN bin/bundle install
-RUN bin/bundle exec rake assets:precompile
 RUN yarn install
+RUN bin/bundle install
+#RUN bin/bundle exec rake assets:precompile
 
 
 # Copy root shell configuration

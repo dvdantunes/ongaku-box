@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# Website startup
+# App startup
 
 # Set bundle path to PATH to get bin files
 export PATH="$PATH:$BUNDLE_PATH"
@@ -15,10 +15,18 @@ export PATH="$PATH:$BUNDLE_PATH"
 cd /app
 
 
-# Start foreman process manager
+# Start processes
 if [ $RAILS_ENV = 'production' ];then
+
+  # Precompile assets
+  bin/bundle exec rake assets:precompile --trace
+
+  # Start foreman process manager
   foreman start -f Procfile
+
 else
+
+  # Start foreman process manager
   foreman start -f Procfile.dev
 fi
 

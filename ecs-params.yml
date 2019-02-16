@@ -17,22 +17,9 @@ task_definition:
   task_execution_role: ECS-task-full-access
   task_size:
     cpu_limit: 1024
-    mem_limit: 0.5GB
+    mem_limit: 0.8GB
   services:
-    redis:
-      essential: true
-      cpu_shares: 0
-      mem_limit: 64m
     demo-tape-app:
       essential: true
       cpu_shares: 0
-      mem_limit: 256m
-    demo-tape-sidekiq:
-      essential: true
-      cpu_shares: 0
-      mem_limit: 160m
-    # demo-tape-cable:
-    #   essential: true
-    #   cpu_shares: 0
-    #   mem_limit: 64m
-
+      mem_limit: 790m
