@@ -1,17 +1,8 @@
 version: '2'
 
 services:
-  redis:
-    image: 'redis:4.0-alpine'
-    command: redis-server
-    volumes:
-      - 'redis:/data'
-
   demo-tape-app:
     image: demo-tape-app
-    depends_on:
-      # - 'postgres'
-      - 'redis'
     build:
       context: .
       dockerfile: Dockerfile-development
@@ -29,45 +20,9 @@ services:
     stdin_open: true
     tty: true
 
-  demo-tape-sidekiq:
-    image: demo-tape-sidekiq
-    depends_on:
-      # - 'postgres'
-      - 'redis'
-    build:
-      context: .
-      dockerfile: Dockerfile-development
-    command: docker/sidekiq-up
-    volumes:
-      - '.:/app'
-    volumes_from:
-      - 'demo-tape-cachebox'
-    env_file:
-      - '.env-development'
-
-  demo-tape-cable:
-    image: demo-tape-cable
-    depends_on:
-      - 'redis'
-    build:
-      context: .
-      dockerfile: Dockerfile-development
-    command: docker/cable-up
-    ports:
-      - '28080:28080'
-    volumes:
-      - '.:/app'
-    volumes_from:
-      - 'demo-tape-cachebox'
-    env_file:
-      - '.env-development'
-
   # Allows gem files caching
   # @see https://medium.com/magnetis-backstage/how-to-cache-bundle-install-with-docker-7bed453a5800
   demo-tape-cachebox:
     image: busybox
     volumes:
       - /cachebox
-
-volumes:
-  redis:
